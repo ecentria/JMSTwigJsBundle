@@ -32,14 +32,16 @@ class CompileTwigCommand extends Command
     {
         $this
             ->setDefinition([
-                new InputArgument('name', InputArgument::REQUIRED, 'The template name')
+                new InputArgument('name', InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'The template name')
             ])
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $compileRequest = new CompileRequest($input->getArgument('name'), null);
-        $output->write($this->compileRequestHandler->process($compileRequest));
+        foreach ($input->getArgument('name') as $name) {
+            $compileRequest = new CompileRequest($name, null);
+            $output->write($this->compileRequestHandler->process($compileRequest));
+        }
     }
 }
