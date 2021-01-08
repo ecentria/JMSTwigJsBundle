@@ -10,9 +10,9 @@
 
     <services>
         <service class="JMS\TwigJsBundle\Command\CompileTwigCommand" id="jms_twig_js.command.compile_twig_command">
+            <tag name="console.command"/>
             <argument>jms:twig-js:compile</argument>
             <argument id="twig_js.compile_request_handler" type="service"/>
-            <tag name="console.command"/>
         </service>
     </services>
 </container>

@@ -2,8 +2,9 @@
 
 namespace JMS\TwigJsBundle\TwigJs\Compiler;
 
-use Symfony\Bundle\FrameworkBundle\Translation\Translator;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Node\Expression\ConstantExpression;
+use Twig\Node\Expression\FilterExpression;
 use TwigJs\JsCompiler;
 use TwigJs\FilterCompilerInterface;
 
@@ -23,9 +24,9 @@ class TransFilterCompiler implements FilterCompilerInterface
         return 'trans';
     }
 
-    public function compile(JsCompiler $compiler, \Twig_Node_Expression_Filter $node)
+    public function compile(JsCompiler $compiler, FilterExpression $node)
     {
-        if (!($locale = $compiler->getDefine('locale')) || !$this->translator instanceof Translator) {
+        if (!($locale = $compiler->getDefine('locale')) || !$this->translator instanceof TranslatorInterface) {
             return false;
         }
 
@@ -39,7 +40,7 @@ class TransFilterCompiler implements FilterCompilerInterface
         // ignore dynamic messages, we cannot resolve these
         // users can still apply a runtime trans filter to do this
         $subNode = $node->getNode('node');
-        if (!$subNode instanceof \Twig_Node_Expression_Constant) {
+        if (!$subNode instanceof ConstantExpression) {
             return false;
         }
 
@@ -54,7 +55,7 @@ class TransFilterCompiler implements FilterCompilerInterface
             if ($arguments->hasNode(1)) {
                 $domainNode = $arguments->getNode(1);
 
-                if (!$domainNode instanceof \Twig_Node_Expression_Constant) {
+                if (!$domainNode instanceof ConstantExpression) {
                     return false;
                 }
 

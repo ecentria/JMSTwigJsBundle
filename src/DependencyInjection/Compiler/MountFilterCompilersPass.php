@@ -13,12 +13,10 @@ class MountFilterCompilersPass implements CompilerPassInterface
         if (!$container->hasDefinition('twig_js.compiler')) {
             return;
         }
-        $compiler = $container->getDefinition('twig_js.compiler');
 
-        foreach ($container->findTaggedServiceIds('twig_js.filter_compiler')
-            as $id => $attr) {
-            $compiler->addMethodCall('addFilterCompiler', array(
-                new Reference($id)));
+        $compiler = $container->getDefinition('twig_js.compiler');
+        foreach ($container->findTaggedServiceIds('twig_js.filter_compiler') as $id => $attr) {
+            $compiler->addMethodCall('addFilterCompiler', array(new Reference($id)));
         }
     }
 }
