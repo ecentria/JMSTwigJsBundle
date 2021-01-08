@@ -2,7 +2,8 @@
 
 namespace JMS\TwigJsBundle\TwigJs\Compiler;
 
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface as ContractsTranslatorInterface;
+use Symfony\Component\Translation\TranslatorInterface as TranslationTranslatorInterface;
 use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\Expression\FilterExpression;
 use TwigJs\JsCompiler;
@@ -14,8 +15,21 @@ class TransFilterCompiler implements FilterCompilerInterface
     private $loadCatalogueRef;
     private $catalogueRef;
 
-    public function __construct(TranslatorInterface $translator)
+    /**
+     * TransFilterCompiler constructor.
+     *
+     * @param ContractsTranslatorInterface|TranslationTranslatorInterface $translator
+     */
+    public function __construct($translator)
     {
+        if (class_exists(ContractsTranslatorInterface::class) && !$translator instanceof ContractsTranslatorInterface) {
+            throw new \InvalidArgumentException(sprintf('Please supply %s', ContractsTranslatorInterface::class));
+        }
+
+        if (class_exists(TranslationTranslatorInterface::class) && !$translator instanceof TranslationTranslatorInterface) {
+            throw new \InvalidArgumentException(sprintf('Please supply %s', TranslationTranslatorInterface::class));
+        }
+
         $this->translator = $translator;
     }
 
@@ -26,7 +40,7 @@ class TransFilterCompiler implements FilterCompilerInterface
 
     public function compile(JsCompiler $compiler, FilterExpression $node)
     {
-        if (!($locale = $compiler->getDefine('locale')) || !$this->translator instanceof TranslatorInterface) {
+        if (!($locale = $compiler->getDefine('locale'))) {
             return false;
         }
 

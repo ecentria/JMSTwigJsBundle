@@ -16,10 +16,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ 7.3, 7.4, 8.0 ]
+        php: [ 7.3, 7.4 ]
         symfony: [ 3.4, 4.4, 5.2 ]
         include:
+          - php: 8.0
+            symfony: 5.2
           - php: 8.1
+            symfony: 5.2
             experimental: true
     timeout-minutes: 10
     steps:
@@ -48,7 +51,7 @@ jobs:
       - name: Install dependencies
         run: |
           echo "::group::composer update"
-          composer require symfony/symfony:${{ matrix.symfony }} --no-update
+          composer require symfony/symfony:${{ matrix.symfony }}.* --no-update
           composer update --no-interaction --prefer-dist
           echo "::endgroup::"
 

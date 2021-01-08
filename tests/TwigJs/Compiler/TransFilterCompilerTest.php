@@ -68,7 +68,7 @@ class TransFilterCompilerTest extends BaseTestCase
         self::assertStringContainsString('this.env_.filter("trans",', $this->compile('{{ "foo"|trans }}'));
     }
 
-    protected function compile($source): string
+    protected function compile($source, $name = null): string
     {
         return parent::compile($source, 'index.twig');
     }
