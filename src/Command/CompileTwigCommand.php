@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Twig\Source;
 use TwigJs\CompileRequest;
 use TwigJs\CompileRequestHandler;
 
@@ -55,13 +56,13 @@ class CompileTwigCommand extends Command
             throw new InvalidOptionException("Option 'name' when using stdin as source");
         }
 
-        $source = $this->readFromStdin();
-        $compileRequest = new CompileRequest($input->getOption('name'), $source);
+        $name = $input->getOption('name');
+        $compileRequest = new CompileRequest($name, $this->createSourceFromStdin($name));
         $output->write($this->compileRequestHandler->process($compileRequest));
     }
 
-    private function readFromStdin(): string
+    private function createSourceFromStdin(string $name): Source
     {
-        return stream_get_contents(STDIN);
+        return new Source(stream_get_contents(STDIN), $name);
     }
 }
