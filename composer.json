@@ -22,7 +22,7 @@
     ],
     "require": {
         "php": ">=7.3",
-        "jms/twig-js": "dev-twig-2.x|dev-twig-2-5548-fixes",
+        "jms/twig-js": "dev-master",
         "symfony/http-kernel": "^3.0|^4.0|^5.0",
         "symfony/console": "^3.0|^4.0|^5.0",
         "symfony/dependency-injection": "^3.0|^4.0|^5.0",
