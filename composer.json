@@ -17,12 +17,12 @@
         {
             "type": "github",
             "no-api": true,
-            "url": "https://github.com/oleg-andreyev/twig.js.git"
+            "url": "https://github.com/ecentria/twig.js.git"
         }
     ],
     "require": {
         "php": ">=7.3",
-        "jms/twig-js": "dev-master",
+        "jms/twig-js": "dev-twig-2.x|dev-twig-2-5548-fixes",
         "symfony/http-kernel": "^3.0|^4.0|^5.0",
         "symfony/console": "^3.0|^4.0|^5.0",
         "symfony/dependency-injection": "^3.0|^4.0|^5.0",
